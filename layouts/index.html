@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Part 1 | Wiser Backend Dev Test</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script>
+      const api_address = "http://localhost:3000/part1";
+    </script>
+</head>
+
+<body>
+<div class="w3-container w3-blue">
+    <h1>Wiser</h1>
+    <h3>Part 1 - Backend Dev Test</h3>
+</div>
+<div class="w3-container">
+    <p>
+        The client wants us to grab data from their server asynchronously to populate the form below.
+        The client cannot modify any of their server code.
+        This document is working properly but for some reason we cannot load the server response.
+        How can we fix this?
+    </p>
+    <p>
+        The form below <i>should</i> populate with the server response.
+    </p>
+    <div class="w3-panel w3-leftbar">
+
+        <form class="w3-container">
+            <input class="w3-input" type="text" readonly id="hello">
+            <label>Hello</label>
+            <input class="w3-input" type="text" readonly id="time">
+            <label>Time</label>
+            <input class="w3-input" type="text" readonly id="uptime">
+            <label>Uptime</label>
+        </form>
+
+    </div>
+    <div class="w3-panel w3-blue">
+        <h3>Info!</h3>
+        <p>This test is to be done in a Google Chrome browser.</p>
+    </div>
+
+    <div id="error" class="w3-modal">
+        <div class="w3-modal-content w3-animate-top w3-card-4">
+            <header class="w3-container w3-red">
+                <span onclick="document.getElementById('error').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                <h2>SERVER ERROR</h2>
+            </header>
+            <div class="w3-container">
+                <p>AN ERROR OCCURED! CANNOT COMMUNICATE WITH SERVER!</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+  function onLoad() {
+    let json = JSON.parse(this.responseText);
+    ["hello", "time", "uptime"].forEach(function (id) {
+      document.getElementById(id).value = json[id];
+    });
+  }
+  function onError() {
+    document.getElementById("error").style.display = "block";
+  }
+  const ajax = new XMLHttpRequest();
+  ajax.addEventListener("load", onLoad);
+  ajax.addEventListener("error", onError);
+  ajax.open("GET", api_address);
+  ajax.send();
+</script>
+
+</html>

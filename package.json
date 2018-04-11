@@ -16,11 +16,15 @@
   "dependencies": {
     "@types/node": "7.0.22",
     "express": "4.15.3",
-    "nodemon": "1.11.0"
+    "nodemon": "1.11.0",
+    "cors": "latest",
+    "request": "latest"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.3",
     "@types/mocha": "2.2.41",
     "@types/node": "7.0.22",
+    "@types/request": "^2.47.0",
     "eslint": "4.0.0",
     "eslint-config-airbnb-base": "11.2.0",
     "eslint-plugin-import": "2.3.0",
