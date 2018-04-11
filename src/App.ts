@@ -1,7 +1,6 @@
 import * as express from 'express'
 import * as cors from 'cors'
-import * as request from 'request'
-import * as asyncRequest from 'async-request'
+import * as madebywiser from './resources/madebywiser'
 
 class App {
   public express;
@@ -15,26 +14,20 @@ class App {
   private mountRoutes (): void {
     const router = express.Router()
     router.get('/part1', (req, res) => {
-      request.get('http://dev-test.madebywiser.com/part1', (error, response, body) => {
-        res.json(JSON.parse(body))
+      madebywiser.getPart1((error, response, body) => {
+          res.json(JSON.parse(body))
       })
     })
 
     router.get('/part3/:x', async (req, res) => {
       const x : number = req.params.x
       let val : string
-      const auth : string = `Basic ${new Buffer('wiserdev:password').toString('base64')}`
       switch (0) {
         case ((x % 3) + (x % 5)) : val = 'FizzBuzz'
           break
         case (x % 7) :
           try {
-            const resAwe = await asyncRequest(`http://dev-test.madebywiser.com/part3/${x}`, {
-              method: 'GET',
-              headers: {
-                Authorization: auth
-              }
-            })
+            const resAwe = await madebywiser.getPart3(x)
             const res : any = JSON.parse(resAwe.body)
             val = res.value
           } catch (err) { return err }
