@@ -1,6 +1,7 @@
 import * as express from 'express'
 import * as cors from 'cors'
 import * as request from 'request'
+import * as asyncRequest from 'async-request'
 
 class App {
   public express;
@@ -19,20 +20,32 @@ class App {
       })
     })
 
-    router.get('/part2/:x', (req, res) => {
+    router.get('/part3/:x', async (req, res) => {
       const x : number = req.params.x
       let val : string
+      const auth : string = `Basic ${new Buffer('wiserdev:password').toString('base64')}`
       switch (0) {
         case ((x % 3) + (x % 5)) : val = 'FizzBuzz'
           break
-        case (x % 3) : val = 'Fizz'
+        case (x % 7) :
+          try {
+            const resAwe = await asyncRequest(`http://dev-test.madebywiser.com/part3/${x}`, {
+              method: 'GET',
+              headers: {
+                Authorization: auth
+              }
+            })
+            const res : any = JSON.parse(resAwe.body)
+            val = res.value
+          } catch (err) { return err }
           break
         case (x % 5) : val = 'Buzz'
           break
+        case (x % 3) : val = 'Fizz'
+          break
         default : val = 'x'
       }
-
-      res.json({ value: val })
+      return res.json({ value: val })
     })
 
     this.express.use('/', router)

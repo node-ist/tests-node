@@ -18,7 +18,8 @@
     "express": "4.15.3",
     "nodemon": "1.11.0",
     "cors": "latest",
-    "request": "latest"
+    "request": "latest",
+    "async-request": "latest"
   },
   "devDependencies": {
     "@types/cors": "^2.8.3",
