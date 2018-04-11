@@ -15,7 +15,7 @@ class App {
     const router = express.Router()
     router.get('/part1', (req, res) => {
       madebywiser.getPart1((error, response, body) => {
-          res.json(JSON.parse(body))
+        res.json(JSON.parse(body))
       })
     })
 
