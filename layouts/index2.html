@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Part 2 | Wiser Backend Dev Test</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script>
+      /**
+       Note Regarding Url Format
+       -------------------------
+       Be sure to include the literal string segment :x in the url to denote the x variable.
+       For example, if your API address is https://api.example.com/part3/<my_x_value>, you'll write:
+       https://api.example.com/part3/:x
+       If you need clarity, please look at the formatUrl() function below to see how URLs are formatted.
+       **/
+      const api_address = "http://localhost:3000/part2/:x";	// replace with your own api address
+    </script>
+</head>
+
+<body>
+<div class="w3-container w3-blue">
+    <h1>Wiser</h1>
+    <h3>Part 2 - Backend Dev Test</h3>
+</div>
+<div class="w3-container">
+    <p>
+        This is a simple FizzBuzz application. Enter a number in the left input and click submit.
+        A number in the right input should appear that corresponds to the input.
+    </p>
+    <p>
+        The number on the right <code>f(x)</code> should be calculated as a function of the input, <code>x</code>, such that
+    </p>
+
+    <code style="min-width: 400px; display: block;">
+        <div style="display:inline-block;vertical-align:top;padding-top:64px;">f(x) =</div>
+        <div style="display:inline-block;font-size:90px;font-family:serif;">{</div>
+        <div style="display:inline-block;">
+            <ul style="padding-left:10px;">
+                <li>"Fizz" if x%3 == 0</li>
+                <li>"Buzz" if x%5 == 0</li>
+                <li>x if x%3 != 0 && x%5 != 0</li>
+            </ul>
+        </div>
+    </code>
+
+    <p><i><b>Note!</b> The function can take more than one path if multiple conditions are true!</i></p>
+
+    <p>
+        You're going to have to build an API that will provide the results for this application.
+        The API should be written in TS-Node.
+        Please check the script tags at the beginning of this HTML document,
+        as you'll need to edit the <i>api_address</i> variable in the correct format to access your API.
+    </p>
+
+    <div class="w3-panel w3-leftbar">
+
+        <form class="w3-container" onsubmit="loadResult(event)">
+            <div class="w3-row-padding">
+                <div class="w3-third">
+                    <input class="w3-input" type="number" id="input" min="0">
+                    <label>Input</label>
+                </div>
+                <div class="w3-third w3-center">
+                    <button id="button" type="submit" class="w3-btn w3-ripple w3-blue">Submit</button>
+                </div>
+                <div class="w3-third">
+                    <input class="w3-input" type="text" readonly id="result">
+                    <label>Result</label>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="w3-panel w3-blue">
+        <h3>Info!</h3>
+        <p>This test is to be done in a Google Chrome browser.</p>
+    </div>
+
+    <div id="error" class="w3-modal">
+        <div class="w3-modal-content w3-animate-top w3-card-4">
+            <header class="w3-container w3-red">
+                <span onclick="document.getElementById('error').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                <h2>SERVER ERROR</h2>
+            </header>
+            <div class="w3-container">
+                <p>AN ERROR OCCURED! CANNOT COMMUNICATE WITH SERVER!</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+  const button_id = "button";
+  function onLoad() {
+    const json = JSON.parse(this.responseText);
+    document.getElementById("result").value = json.value;
+    enableButton(button_id);
+  }
+  function onError() {
+    enableButton(button_id);
+    document.getElementById("error").style.display = "block";
+  }
+  function disableButton(id) {
+    document.getElementById(id).disabled = true;
+  }
+  function enableButton(id) {
+    document.getElementById(id).disabled = false;
+  }
+  function getInputVal() {
+    return document.getElementById("input").value;
+  }
+  function formatUrl(address,x_input) {
+    return api_address.replace(":x",x_input);
+  }
+  function loadResult(event) {
+    disableButton(button_id);
+    event.preventDefault();
+    const ajax = new XMLHttpRequest();
+    ajax.addEventListener("load", onLoad);
+    ajax.addEventListener("error", onError);
+    const address = formatUrl(api_address,getInputVal());
+    ajax.open("GET", address);
+    ajax.send();
+  }
+</script>
+
+</html>

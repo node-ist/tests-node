@@ -18,6 +18,23 @@ class App {
         res.json(JSON.parse(body))
       })
     })
+
+    router.get('/part2/:x', (req, res) => {
+      const x : number = req.params.x
+      let val : string
+      switch (0) {
+        case ((x % 3) + (x % 5)) : val = 'FizzBuzz'
+          break
+        case (x % 3) : val = 'Fizz'
+          break
+        case (x % 5) : val = 'Buzz'
+          break
+        default : val = 'x'
+      }
+
+      res.json({ value: val })
+    })
+
     this.express.use('/', router)
   }
 }
